@@ -34,6 +34,9 @@ const Auth = (props) => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  let googleclientId =
+    "533608569605-nn5f2larv0rj77dj32gu5gnldqsmprsi.apps.googleusercontent.com";
+  // let googleclientId = '533608569605-nn5f2larv0rj77dj32gu5gnldqsmprsi.apps.googleusercontent.com';
 
   const handleSwitchMode = () => setIsSignUp((preIsSignUp) => !preIsSignUp);
 
@@ -125,7 +128,7 @@ const Auth = (props) => {
             {isSignUp ? "Sign Up" : "Sign In"}
           </Button>
           <GoogleLogin
-            clientId="533608569605-nn5f2larv0rj77dj32gu5gnldqsmprsi.apps.googleusercontent.com"
+            clientId={googleclientId}
             render={(renderProps) => (
               <Button
                 onClick={renderProps.onClick}
