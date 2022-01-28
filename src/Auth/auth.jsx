@@ -12,7 +12,7 @@ import useStyles from "./styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useState } from "react";
 import { GoogleLogin } from "react-google-login";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signIn, signUp } from "../Redux/actions/auth";
 

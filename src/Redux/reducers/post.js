@@ -1,7 +1,3 @@
-const initialState = {
-    post: [],
-}
-
 
 export default (post = [], action) => {
     switch (action.type) {

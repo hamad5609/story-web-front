@@ -1,11 +1,11 @@
 import React from "react";
 import Home from "./Home/home";
-import useStyles from './styles';
+// import useStyles from './styles';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Auth from "./Auth/auth";
 
 function App() {
-  const styles = useStyles();
+  // const styles = useStyles();
   return (
     <div>
       <BrowserRouter>
