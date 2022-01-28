@@ -2,10 +2,8 @@ import React from "react";
 import { CircularProgress, Grid } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import Post from "./Post/Post.jsx";
-// import useStyles from "./styles.jsx";
 
 const Posts = ({ currentId, setCurrentId }) => {
-  // const styles = useStyles();
   const post = useSelector((state) => state.post);
   const postData = post;
   if (postData.length > 0) {
