@@ -6,6 +6,8 @@ import {
   AppBar,
   Grow,
   Button,
+  Avatar,
+  Toolbar,
 } from "@material-ui/core";
 import logo from "../assets/images/logo.png";
 import Posts from "../Posts/Posts";
@@ -33,7 +35,6 @@ const Home = (props) => {
   }, [currentId, dispatch]);
   useEffect(() => {
     const token = user?.token;
-    // console.log(token);
     if (token) {
       const decodedToken = decode(token);
       if (decodedToken.exp * 1000 < new Date().getTime()) handleLogout();
@@ -42,17 +43,41 @@ const Home = (props) => {
   }, [location]);
   return (
     <div>
-      <Container maxWidth="lg">
-        <AppBar className={styles.appBar} position="static" color="inherit">
-          <Typography className={styles.heading} variant="h2" align="center">
-            Story
-          </Typography>
+      <AppBar className={styles.appBar} position="sticky" color="inherit">
+        <div className={styles.flexLogo}>
           <img
             className={styles.image}
             src={logo}
             alt="logo website"
             height="60"
           />
+          <Typography className={styles.heading} variant="h5" align="center">
+            STORY WEB
+          </Typography>
+        </div>
+        <div className={styles.flexLogo}>
+          <Toolbar className={styles.navlinks}>
+            <Link to="/" className={styles.link}>
+              Home
+            </Link>
+            <Link to="/about" className={styles.link}>
+              About Us
+            </Link>
+            {user ? (
+              <Toolbar>
+                <Avatar
+                  className={styles.avatar}
+                  alt={user.result.name}
+                  src={user.result.imageUrl}
+                >
+                  {user.result.name.charAt(0)}
+                </Avatar>
+                <Typography variant="h6">{user.result.name}</Typography>
+              </Toolbar>
+            ) : (
+              ""
+            )}
+          </Toolbar>
           {user ? (
             <Button
               variant="contained"
@@ -71,7 +96,9 @@ const Home = (props) => {
               Sign In
             </Button>
           )}
-        </AppBar>
+        </div>
+      </AppBar>
+      <Container maxWidth="lg">
         <Grow in>
           <Container>
             <Grid container spacing={3} className={styles.formSection}>

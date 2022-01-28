@@ -100,6 +100,8 @@ const Form = ({ currentId, setCurrentId }) => {
             name="message"
             label="Message"
             variant="outlined"
+            multiline
+            rows={4}
             fullWidth
             required
             value={postData.message}
