@@ -2,6 +2,7 @@ import React from "react";
 import { CircularProgress, Grid } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import Post from "./Post/Post.jsx";
+import Paginate from "../Pagination/pagination.jsx";
 
 const Posts = ({ currentId, setCurrentId }) => {
   const post = useSelector((state) => state.post);
@@ -15,7 +16,7 @@ const Posts = ({ currentId, setCurrentId }) => {
         <Grid container spacing={3}>
           {postData.map((post) => {
             return (
-              <Grid item key={post._id} xs={12} sm={6}>
+              <Grid item key={post._id} xs={12} sm={4}>
                 <Post
                   post={post}
                   currentId={currentId}
@@ -24,6 +25,7 @@ const Posts = ({ currentId, setCurrentId }) => {
               </Grid>
             );
           })}
+          <Paginate />
         </Grid>
       ) : (
         <CircularProgress />

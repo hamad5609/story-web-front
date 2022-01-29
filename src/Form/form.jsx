@@ -6,14 +6,20 @@ import FileBase64 from "react-file-base64";
 import { createPost, updatePost } from "../Redux/actions/post.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Form = ({ currentId, setCurrentId }) => {
   const styles = useStyles();
   const dispatch = useDispatch();
+  const location = useLocation();
   const post = useSelector((state) =>
     currentId ? state.post.find((p) => p._id === currentId) : null
   );
-  const user = JSON.parse(localStorage.getItem("UserProfile"));
+  let user = JSON.parse(localStorage.getItem("UserProfile"));
+  useEffect(() => {
+    user = JSON.parse(localStorage.getItem("UserProfile"));
+  }, [location]);
+
   const [postData, setPostData] = useState({
     title: "",
     message: "",

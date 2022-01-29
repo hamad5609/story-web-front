@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import {
   Button,
   Card,
@@ -10,16 +11,20 @@ import MoreHoziIcon from "@material-ui/icons/MoreHoriz";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import ThumbUpAltOutlined from "@material-ui/icons/ThumbUpAltOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
-import React from "react";
 import useStyles from "./styles";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../Redux/actions/post";
+import { useLocation } from "react-router-dom";
 
 const Post = ({ post, currentId, setCurrentId }) => {
   const styles = useStyles();
   const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem("UserProfile"));
+  const location = useLocation();
+  let user = JSON.parse(localStorage.getItem("UserProfile"));
+  useEffect(() => {
+    user = JSON.parse(localStorage.getItem("UserProfile"));
+  }, [location]);
   const Likes = () => {
     if (post.likes.length > 0) {
       const postLength = post.likes.length;
