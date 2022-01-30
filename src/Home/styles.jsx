@@ -4,10 +4,8 @@ export default makeStyles(() => ({
   appBar: {
     // borderRadius: 15,
     margin: "0px 0 30px",
-    padding: "10px 20px",
+    padding: "20px 15px",
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
   },
   formSection: {
@@ -39,5 +37,8 @@ export default makeStyles(() => ({
   },
   avatar: {
     marginRight: "15px",
+  },
+  ChipInput: {
+    margin: "15px 0px",
   },
 }));

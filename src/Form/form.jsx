@@ -6,19 +6,15 @@ import FileBase64 from "react-file-base64";
 import { createPost, updatePost } from "../Redux/actions/post.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { IsUser } from "../Auth/user";
 
 const Form = ({ currentId, setCurrentId }) => {
   const styles = useStyles();
   const dispatch = useDispatch();
-  const location = useLocation();
   const post = useSelector((state) =>
     currentId ? state.post.find((p) => p._id === currentId) : null
   );
-  let user = JSON.parse(localStorage.getItem("UserProfile"));
-  useEffect(() => {
-    user = JSON.parse(localStorage.getItem("UserProfile"));
-  }, [location]);
+  const user = IsUser();
 
   const [postData, setPostData] = useState({
     title: "",
@@ -72,7 +68,7 @@ const Form = ({ currentId, setCurrentId }) => {
   }
   return (
     <div>
-      <Paper>
+      <Paper className={styles.paper}>
         <form
           autoComplete="off"
           noValidate
@@ -148,6 +144,7 @@ const Form = ({ currentId, setCurrentId }) => {
           </Button>
           <Button
             variant="contained"
+            className={styles.btnClear}
             size="large"
             color="secondary"
             fullWidth

@@ -25,7 +25,7 @@ const Posts = ({ currentId, setCurrentId }) => {
               </Grid>
             );
           })}
-          <Paginate />
+          {/* <Paginate /> */}
         </Grid>
       ) : (
         <CircularProgress />

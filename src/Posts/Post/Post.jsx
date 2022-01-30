@@ -15,16 +15,12 @@ import useStyles from "./styles";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../Redux/actions/post";
-import { useLocation } from "react-router-dom";
+import { IsUser } from "../../Auth/user.jsx";
 
 const Post = ({ post, currentId, setCurrentId }) => {
   const styles = useStyles();
   const dispatch = useDispatch();
-  const location = useLocation();
-  let user = JSON.parse(localStorage.getItem("UserProfile"));
-  useEffect(() => {
-    user = JSON.parse(localStorage.getItem("UserProfile"));
-  }, [location]);
+  const user = IsUser();
   const Likes = () => {
     if (post.likes.length > 0) {
       const postLength = post.likes.length;
