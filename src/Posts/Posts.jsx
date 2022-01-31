@@ -5,14 +5,16 @@ import Post from "./Post/Post.jsx";
 import Paginate from "../Pagination/pagination.jsx";
 
 const Posts = ({ currentId, setCurrentId }) => {
-  const post = useSelector((state) => state.post);
-  const postData = post;
-  if (postData.length > 0) {
-    console.log(postData);
-  }
+  const { post } = useSelector((state) => state.post);
+  const { isLoading } = useSelector((state) => state.post);
+  const postData = post?.data;
+  console.log(isLoading);
+  // if (post) {
+  //   console.log(post);
+  // }
   return (
     <div>
-      {postData && postData.length > 0 ? (
+      {!isLoading && postData && postData.length > 0 ? (
         <Grid container spacing={3}>
           {postData.map((post) => {
             return (

@@ -12,8 +12,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Posts from "../Posts/Posts";
 import Form from "../Form/form";
 import useStyles from "./styles";
-import { useDispatch } from "react-redux";
-import { getPosts } from "../Redux/actions/post";
+import { useDispatch, useSelector } from "react-redux";
+import { getPosts, getPostsBySearch } from "../Redux/actions/post";
 import Navbar from "../Navbar/navbar";
 import Paginate from "../Pagination/pagination";
 
@@ -31,14 +31,17 @@ const Home = (props) => {
   const [currentId, setCurrentId] = useState(null);
   const [search, setSearch] = useState("");
   const [tags, setTags] = useState([]);
+  const { currentPage } = useSelector((state) => state.post);
 
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
+  // useEffect(() => {
+  //   dispatch(getPosts(currentPage || 1));
+  // }, [currentId, dispatch]);
 
   const searchPost = () => {
-    if (search.trim()) {
+    if (search.trim() || tags) {
       // fetch Post
+      dispatch(getPostsBySearch({ search, tags: tags.join(",") }));
+      history(`/post/search?searchQuery=${search}&tags=${tags}`);
     } else {
       history("/");
     }
@@ -64,7 +67,9 @@ const Home = (props) => {
             <Grid container spacing={3} className={styles.formSection}>
               <Grid item sm={12} md={8}>
                 <Posts currentId={currentId} setCurrentId={setCurrentId} />
-                <Paginate />
+                {/* {(!searchQuery || !tags) &&  */}
+                <Paginate page={page} />
+                {/* } */}
               </Grid>
               <Grid item sm={12} md={4}>
                 <AppBar

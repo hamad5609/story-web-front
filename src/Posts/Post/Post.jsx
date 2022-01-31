@@ -13,13 +13,14 @@ import ThumbUpAltOutlined from "@material-ui/icons/ThumbUpAltOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
 import useStyles from "./styles";
 import moment from "moment";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deletePost, likePost } from "../../Redux/actions/post";
 import { IsUser } from "../../Auth/user.jsx";
 
 const Post = ({ post, currentId, setCurrentId }) => {
   const styles = useStyles();
   const dispatch = useDispatch();
+  const { currentPage } = useSelector((state) => state.post);
   const user = IsUser();
   const Likes = () => {
     if (post.likes.length > 0) {
@@ -100,7 +101,7 @@ const Post = ({ post, currentId, setCurrentId }) => {
             color="primary"
             disabled={!user?.result}
             onClick={() => {
-              dispatch(likePost(post._id));
+              dispatch(likePost(post._id, currentPage));
             }}
           >
             <Likes />
@@ -111,7 +112,7 @@ const Post = ({ post, currentId, setCurrentId }) => {
               size="small"
               color="secondary"
               onClick={() => {
-                dispatch(deletePost(post._id));
+                dispatch(deletePost(post._id, currentPage));
               }}
             >
               <DeleteIcon />

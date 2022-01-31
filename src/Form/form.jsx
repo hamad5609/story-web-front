@@ -11,9 +11,12 @@ import { IsUser } from "../Auth/user";
 const Form = ({ currentId, setCurrentId }) => {
   const styles = useStyles();
   const dispatch = useDispatch();
-  const post = useSelector((state) =>
-    currentId ? state.post.find((p) => p._id === currentId) : null
-  );
+  const { post } = useSelector((state) => state.post);
+  const { currentPage } = useSelector((state) => state.post);
+  let postItem = null;
+  if (currentId) {
+    postItem = post?.data.find((p) => p._id === currentId);
+  }
   const user = IsUser();
 
   const [postData, setPostData] = useState({
@@ -34,10 +37,16 @@ const Form = ({ currentId, setCurrentId }) => {
     ) {
       if (currentId) {
         dispatch(
-          updatePost(currentId, { ...postData, name: user?.result?.name })
+          updatePost(
+            currentId,
+            { ...postData, name: user?.result?.name },
+            currentPage
+          )
         );
       } else {
-        dispatch(createPost({ ...postData, name: user?.result?.name }));
+        dispatch(
+          createPost({ ...postData, name: user?.result?.name }, currentPage)
+        );
       }
       handleClear();
     }
@@ -52,10 +61,10 @@ const Form = ({ currentId, setCurrentId }) => {
     });
   };
   useEffect(() => {
-    if (post) {
-      setPostData(post);
+    if (postItem) {
+      setPostData(postItem);
     }
-  }, [post]);
+  }, [postItem]);
 
   if (!user?.result?.name) {
     return (

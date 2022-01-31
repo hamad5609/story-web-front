@@ -1,54 +1,74 @@
 import * as api from '../../api/api.js';
 
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (page) => async (dispatch) => {
     try {
-        const { data } = await api.FetchApi();
-        dispatch({ type: 'SHOW_LOADER', payload: true });
+        dispatch({ type: 'SHOW_LOADING' })
+        const { data } = await api.FetchApi(page);
         dispatch({ type: 'Fetch_POST', payload: data });
-        dispatch({ type: 'SHOW_LOADER', payload: false });
+        dispatch({ type: 'HIDE_LOADING' })
     } catch (error) {
         console.log(error.message);
-        dispatch({ type: 'SHOW_LOADER', payload: true });
+    }
+}
+export const getPostsBySearch = (searchQuery) => async (dispatch) => {
+    try {
+        dispatch({ type: 'SHOW_LOADING' })
+        const { data: data } = await api.FetchPostBySearch(searchQuery);
+        console.log(data);
+        dispatch({ type: 'Fetch_POST_BY_SEARCH', payload: data });
+        dispatch({ type: 'HIDE_LOADING' })
+    } catch (error) {
+        console.log(error.message);
     }
 }
 
-export const createPost = (post) => async (dispatch) => {
+export const createPost = (post, currentPage) => async (dispatch) => {
     try {
+        dispatch({ type: 'SHOW_LOADING' })
         const { data } = await api.CreateApi(post);
-        dispatch({ type: 'SHOW_LOADER', payload: true });
+        dispatch(getPosts(currentPage));
         dispatch({ type: 'CREATE_POST', payload: data });
-        dispatch({ type: 'SHOW_LOADER', payload: false });
+        dispatch({ type: 'HIDE_LOADING' })
+
     } catch (error) {
         console.log(error.message);
-        dispatch({ type: 'SHOW_LOADER', payload: true });
     }
 }
 
-export const updatePost = (id, post) => async (dispatch) => {
+export const updatePost = (id, post, currentPage) => async (dispatch) => {
     try {
+        dispatch({ type: 'SHOW_LOADING' })
         const { data } = await api.UpdatePost(id, post);
-        dispatch({ type: 'SHOW_LOADER', payload: true });
+        dispatch(getPosts(currentPage));
         dispatch({ type: 'UPDATE_POST', payload: data });
-        dispatch({ type: 'SHOW_LOADER', payload: false });
+        dispatch({ type: 'HIDE_LOADING' })
+
     } catch (error) {
         console.log(error.message);
-        dispatch({ type: 'SHOW_LOADER', payload: true });
     }
 }
 
-export const deletePost = (id) => async (dispatch) => {
+export const deletePost = (id, currentPage) => async (dispatch) => {
     try {
+        dispatch({ type: 'SHOW_LOADING' })
         await api.DeletePost(id);
+        dispatch(getPosts(currentPage));
         dispatch({ type: 'DELETE_POST', payload: id });
+        dispatch({ type: 'HIDE_LOADING' })
+
     } catch (error) {
         console.log(error.message);
     }
 }
 
-export const likePost = (id) => async (dispatch) => {
+export const likePost = (id, currentPage) => async (dispatch) => {
     try {
+        dispatch({ type: 'SHOW_LOADING' })
         const { data } = await api.LikePost(id);
-        dispatch({ type: 'LIKE_POST', payload: data });
+        dispatch(getPosts(currentPage));
+        dispatch({ type: 'LIKE_POST', payload: data })
+        dispatch({ type: 'HIDE_LOADING' })
+
     } catch (error) {
         console.log(error.message);
     }

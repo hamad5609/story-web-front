@@ -1,17 +1,28 @@
 
-export default (post = [], action) => {
+export default (state = { post: [], isLoading: true }, action) => {
     switch (action.type) {
         case 'Fetch_POST':
-            return action.payload;
+            return {
+                ...state,
+                post: action.payload,
+                currentPage: action.payload.currentPage,
+                numberOfPages: action.payload.numberOfPages
+            };
+        case 'Fetch_POST_BY_SEARCH':
+            return { ...state, post: action.payload };
+        case 'SHOW_LOADING':
+            return { ...state, isLoading: true };
+        case 'HIDE_LOADING':
+            return { ...state, isLoading: false };
         case 'CREATE_POST':
-            return [...post, action.payload];
+            return { ...state, post: [...state.post, action.payload] };
         case 'UPDATE_POST':
-            return post.map((p) => p._id === action.payload._id ? action.payload : p);
+            return { ...state, post: state.post.map((p) => p._id === action.payload._id ? action.payload : p) }
         case 'LIKE_POST':
-            return post.map((p) => p._id === action.payload._id ? action.payload : p);
+            return { ...state, post: state.post.map((p) => p._id === action.payload._id ? action.payload : p) }
         case 'DELETE_POST':
-            return post.filter((p) => p._id !== action.payload);
+            return { ...state, post: state.post.filter((p) => p._id !== action.payload) };
         default:
-            return post;
+            return state;
     }
 }
