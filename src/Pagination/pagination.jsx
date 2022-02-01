@@ -4,13 +4,17 @@ import { Link } from "react-router-dom";
 import useStyles from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "../Redux/actions/post.js";
+import { useQuery } from "../searchQuery/index";
 
 const Paginate = ({ page }) => {
   const styles = useStyles();
   const dispatch = useDispatch();
+  const query = useQuery();
+  const searchQuery = query.get("searchQuery");
+  const tag = query.get("tags");
   const { numberOfPages } = useSelector((state) => state.post);
   useEffect(() => {
-    if (page) dispatch(getPosts(page));
+    if (!searchQuery && !tag && page) dispatch(getPosts(page));
   }, [page]);
   return (
     <Pagination

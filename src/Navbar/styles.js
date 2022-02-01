@@ -22,6 +22,11 @@ export default makeStyles(() => ({
     flexLogo: {
         display: "flex",
         alignItems: "center",
+        textDecoration: "none",
+        color: "black",
+        "&:focus": {
+            color: "black",
+        },
     },
     link: {
         textDecoration: "none",
@@ -37,4 +42,9 @@ export default makeStyles(() => ({
     avatar: {
         marginRight: "15px",
     },
+    cursor: {
+        "&:hover": {
+            cursor: "pointer",
+        }
+    }
 }));

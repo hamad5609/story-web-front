@@ -5,6 +5,7 @@ import { Typography, AppBar, Button, Avatar, Toolbar } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import logo from "../assets/images/logo.png";
 import decode from "jwt-decode";
+import { getPosts } from "../Redux/actions/post.js";
 
 const Navbar = (props) => {
   const [user, setUser] = useState(null);
@@ -17,6 +18,11 @@ const Navbar = (props) => {
     setUser(null);
     history("/");
   };
+  const handleLogoClick = () => {
+    let page = "1";
+    dispatch(getPosts(page));
+    history("/");
+  };
   useEffect(() => {
     const token = user?.token;
     if (token) {
@@ -27,7 +33,10 @@ const Navbar = (props) => {
   }, [location]);
   return (
     <AppBar className={styles.appBar} position="sticky" color="inherit">
-      <div className={styles.flexLogo}>
+      <div
+        className={`${styles.flexLogo} ${styles.cursor}`}
+        onClick={handleLogoClick}
+      >
         <img
           className={styles.image}
           src={logo}
