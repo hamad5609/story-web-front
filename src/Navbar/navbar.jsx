@@ -7,7 +7,7 @@ import logo from "../assets/images/logo.png";
 import decode from "jwt-decode";
 import { getPosts } from "../Redux/actions/post.js";
 
-const Navbar = (props) => {
+const Navbar = ({ setSearch, setTags }) => {
   const [user, setUser] = useState(null);
   const styles = useStyles();
   const dispatch = useDispatch();
@@ -22,6 +22,8 @@ const Navbar = (props) => {
     let page = "1";
     dispatch(getPosts(page));
     history("/");
+    setSearch("");
+    setTags([]);
   };
   useEffect(() => {
     const token = user?.token;

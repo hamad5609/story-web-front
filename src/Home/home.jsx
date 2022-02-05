@@ -8,11 +8,11 @@ import {
   TextField,
 } from "@material-ui/core";
 import ChipInput from "material-ui-chip-input";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Posts from "../Posts/Posts";
 import Form from "../Form/form";
 import useStyles from "./styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getPostsBySearch } from "../Redux/actions/post";
 import Navbar from "../Navbar/navbar";
 import Paginate from "../Pagination/pagination";
@@ -21,6 +21,7 @@ import { useQuery } from "../searchQuery/index";
 const Home = (props) => {
   const dispatch = useDispatch();
   const styles = useStyles();
+  const location = useLocation();
   const query = useQuery();
   const history = useNavigate();
   const page = query.get("page") || 1;
@@ -29,21 +30,26 @@ const Home = (props) => {
   const [currentId, setCurrentId] = useState(null);
   const [search, setSearch] = useState("");
   const [tags, setTags] = useState([]);
-  // const { currentPage } = useSelector((state) => state.post);
+  // console.log(location);
+
   useEffect(() => {
     if (tag || searchQuery) {
       const search = searchQuery;
       dispatch(getPostsBySearch({ search, tags: tag }));
-      history(`/post/search?searchQuery=${searchQuery}&tags=${tag}`);
+      history(`?searchQuery=${searchQuery}&tags=${tag}`);
+      setSearch(searchQuery);
+      if (tag !== "") {
+        console.log([tag.split(",")]);
+        setTags([...tag.split(",")]);
+      }
     }
   }, []);
 
   const searchPost = () => {
-    if (search.trim() || tags) {
+    if ((search.trim() || tags) && search && search !== "") {
       // fetch Post
-      console.log(search);
       dispatch(getPostsBySearch({ search, tags: tags.join(",") }));
-      history(`/post/search?searchQuery=${search}&tags=${tags}`);
+      history(`?searchQuery=${search}&tags=${tags}`);
     } else {
       history("/");
     }
@@ -62,7 +68,7 @@ const Home = (props) => {
   };
   return (
     <div>
-      <Navbar />
+      <Navbar setSearch={setSearch} setTags={setTags} />
       <Container maxWidth="xl">
         <Grow in>
           <Container>
@@ -87,6 +93,7 @@ const Home = (props) => {
                       setSearch(e.target.value);
                     }}
                     value={search}
+                    required
                   />
                   <ChipInput
                     variant="outlined"

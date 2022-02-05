@@ -27,7 +27,7 @@ function App() {
         {/* <Navbar /> */}
         <Routes >
           <Route element={<Home />} exact path='/' />
-          <Route element={<Home />} exact path='/post/search' />
+          {/* <Route element={<Home />} exact path='/' /> */}
           <Route element={<PostDetails />} path='/post/:id' />
           <Route element={!user ? <Auth /> : <Navigate to='/' />} exact path='/auth' />
         </Routes>

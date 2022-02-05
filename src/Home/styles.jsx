@@ -10,6 +10,9 @@ export default makeStyles(() => ({
   },
   formSection: {
     justifyContent: "space-between",
+    "@media (max-width: 960px)": {
+      flexDirection: "column-reverse",
+    },
   },
   heading: {
     // color: "rgba(0,183,255, 1)",

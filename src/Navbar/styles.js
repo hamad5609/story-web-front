@@ -15,6 +15,9 @@ export default makeStyles(() => ({
         fontFamily: "Bebas Neue",
         // fontWeight: "700",
         fontSize: "35px",
+        '@media (max-width: 700px)': {
+            display: "none",
+        }
     },
     image: {
         marginRight: "15px",
