@@ -6,6 +6,7 @@ import {
   CardContent,
   CardMedia,
   Typography,
+  ButtonBase,
 } from "@material-ui/core";
 import MoreHoziIcon from "@material-ui/icons/MoreHoriz";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
@@ -16,10 +17,12 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePost, likePost } from "../../Redux/actions/post";
 import { IsUser } from "../../Auth/user.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Post = ({ post, currentId, setCurrentId }) => {
   const styles = useStyles();
   const dispatch = useDispatch();
+  const history = useNavigate();
   const { currentPage } = useSelector((state) => state.post);
   const user = IsUser();
   const Likes = () => {
@@ -52,49 +55,57 @@ const Post = ({ post, currentId, setCurrentId }) => {
       );
     }
   };
+  const openPost = (post) => {
+    history(`/${post}`);
+  };
   return (
     <div>
       <Card className={styles.card}>
-        <CardMedia
-          className={styles.media}
-          image={post.selectedFile}
-          title={post.title}
-        />
-        <div className={styles.overlay}>
-          <Typography variant="h6">{post.name}</Typography>
-          <Typography variant="body2">
-            {moment(post.createdAt).fromNow()}
-          </Typography>
-        </div>
-        <div className={styles.overlay2}>
-          {user?.result?.googleId === post.creator ||
-          user?.result?._id === post.creator ? (
-            <Button
-              size="small"
-              className={styles.moreIcon}
-              onClick={() => {
-                setCurrentId(post._id);
-              }}
-            >
-              <MoreHoziIcon size="default" />
-            </Button>
-          ) : (
-            ""
-          )}
-        </div>
-        <div className={styles.details}>
-          <Typography variant="body2" color="textSecondary">
-            {post.tag.map((tag) => `#${tag}`)}
-          </Typography>
-        </div>
-        <CardContent>
-          <Typography className={styles.title} gutterBottom>
-            {post.title}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" gutterBottom>
-            {post.message}
-          </Typography>
-        </CardContent>
+        <ButtonBase
+          className={styles.postButton}
+          onClick={() => openPost(post._id)}
+        >
+          <CardMedia
+            className={styles.media}
+            image={post.selectedFile}
+            title={post.title}
+          />
+          <div className={styles.overlay}>
+            <Typography variant="h6">{post.name}</Typography>
+            <Typography variant="body2">
+              {moment(post.createdAt).fromNow()}
+            </Typography>
+          </div>
+          <div className={styles.overlay2}>
+            {user?.result?.googleId === post.creator ||
+            user?.result?._id === post.creator ? (
+              <Button
+                size="small"
+                className={styles.moreIcon}
+                onClick={() => {
+                  setCurrentId(post._id);
+                }}
+              >
+                <MoreHoziIcon size="default" />
+              </Button>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className={styles.details}>
+            <Typography variant="body2" color="textSecondary">
+              {post.tag.map((tag) => `#${tag}`)}
+            </Typography>
+          </div>
+          <CardContent>
+            <Typography className={styles.title} gutterBottom>
+              {post.title}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" gutterBottom>
+              {post.message}
+            </Typography>
+          </CardContent>
+        </ButtonBase>
         <CardActions className={styles.cardActions}>
           <Button
             size="small"

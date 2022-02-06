@@ -49,5 +49,10 @@ export default makeStyles(() => ({
         "&:hover": {
             cursor: "pointer",
         }
+    },
+    userName: {
+        '@media (max-width: 700px)': {
+            display: "none",
+        }
     }
 }));

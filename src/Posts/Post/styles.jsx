@@ -52,4 +52,9 @@ export default makeStyles({
     display: "flex",
     justifyContent: "space-between",
   },
+  postButton: {
+    display: "block",
+    textAlign: "left",
+    zIndex: 1,
+  },
 });

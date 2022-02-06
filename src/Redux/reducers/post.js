@@ -1,5 +1,5 @@
 
-export default (state = { post: [], isLoading: true }, action) => {
+export default (state = { post: [], isLoading: false, postById: null }, action) => {
     switch (action.type) {
         case 'Fetch_POST':
             return {
@@ -8,6 +8,8 @@ export default (state = { post: [], isLoading: true }, action) => {
                 currentPage: action.payload.currentPage,
                 numberOfPages: action.payload.numberOfPages
             };
+        case 'Fetch_POST_BY_ID':
+            return { ...state, postById: action.payload };
         case 'Fetch_POST_BY_SEARCH':
             return { ...state, post: action.payload };
         case 'SHOW_LOADING':

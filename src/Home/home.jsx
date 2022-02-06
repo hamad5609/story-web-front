@@ -69,10 +69,10 @@ const Home = (props) => {
   return (
     <div>
       <Navbar setSearch={setSearch} setTags={setTags} />
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" className={styles.mobileContainer}>
         <Grow in>
-          <Container>
-            <Grid container spacing={3} className={styles.formSection}>
+          <Container className={styles.mobileContainer}>
+            <Grid container spacing={3} className={`${styles.formSection}`}>
               <Grid item sm={12} md={8}>
                 <Posts currentId={currentId} setCurrentId={setCurrentId} />
                 {searchQuery || tag ? "" : <Paginate page={page} />}

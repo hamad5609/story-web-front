@@ -1,6 +1,12 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles(() => ({
+  mobileContainer: {
+    "@media (max-width: 340px)": {
+      paddingLeft: "6px !important",
+      paddingRight: "6px !important",
+    },
+  },
   appBar: {
     // borderRadius: 15,
     margin: "0px 0 30px",

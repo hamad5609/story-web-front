@@ -51,12 +51,12 @@ const Navbar = ({ setSearch, setTags }) => {
       </div>
       <div className={styles.flexLogo}>
         <Toolbar className={styles.navlinks}>
-          <Link to="/" className={styles.link}>
+          {/* <Link to="/" className={styles.link}>
             Home
           </Link>
           <Link to="/about" className={styles.link}>
             About Us
-          </Link>
+          </Link> */}
           {user ? (
             <Toolbar>
               <Avatar
@@ -66,7 +66,9 @@ const Navbar = ({ setSearch, setTags }) => {
               >
                 {user.result.name.charAt(0)}
               </Avatar>
-              <Typography variant="h6">{user.result.name}</Typography>
+              <Typography variant="h6" className={styles.userName}>
+                {user.result.name}
+              </Typography>
             </Toolbar>
           ) : (
             ""

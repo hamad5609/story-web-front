@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const url = "http://localhost:5000";
-const url = "https://story-web-back.herokuapp.com";
+const url = "http://localhost:5000";
+// const url = "https://story-web-back.herokuapp.com";
 const Api = axios.create({ baseURL: url });
 Api.interceptors.request.use((req) => {
     if (localStorage.getItem('UserProfile')) {
@@ -11,6 +11,7 @@ Api.interceptors.request.use((req) => {
 })
 
 export const FetchApi = (page) => Api.get(`/?page=${page}`);
+export const FetchPostById = (id) => Api.get(`/${id}`);
 export const FetchPostBySearch = (searchQuery) => Api.get(`/post/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
 export const CreateApi = (payload) => Api.post(`/post`, payload);
 export const UpdatePost = (id, payload) => Api.patch(`/post/${id}`, payload);

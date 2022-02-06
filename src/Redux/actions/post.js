@@ -10,6 +10,16 @@ export const getPosts = (page) => async (dispatch) => {
         console.log(error.message);
     }
 }
+export const getPostById = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: 'SHOW_LOADING' })
+        const { data } = await api.FetchPostById(id);
+        dispatch({ type: 'Fetch_POST_BY_ID', payload: data });
+        dispatch({ type: 'HIDE_LOADING' })
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
     try {
         dispatch({ type: 'SHOW_LOADING' })
