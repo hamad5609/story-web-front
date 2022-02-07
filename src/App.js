@@ -26,9 +26,10 @@ function App() {
       <BrowserRouter>
         {/* <Navbar /> */}
         <Routes >
+          <Route element={<PostDetails />} path='/:id' />
           <Route element={<Home />} exact path='/' />
           {/* <Route element={<Home />} exact path='/' /> */}
-          <Route element={<PostDetails />} path='/:id' />
+
           <Route element={!user ? <Auth /> : <Navigate to='/' />} exact path='/auth' />
         </Routes>
       </BrowserRouter>

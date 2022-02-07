@@ -39,5 +39,23 @@ export default makeStyles((theme) => ({
     },
     message: {
         marginTop: "10px",
+    },
+    recommendedSection: {
+        padding: "20px 20px 20px"
+    },
+    postSection: {
+        '@media (max-width: 766px)': {
+            flexDirection: "column"
+        }
+    },
+    cards: {
+        padding: "15px",
+        cursor: "pointer",
+    },
+    recommendedImg: {
+        marginTop: "15px",
+        '@media (max-width: 766px)': {
+            width: "100%",
+        }
     }
 }));

@@ -22,8 +22,8 @@ const Navbar = ({ setSearch, setTags }) => {
     let page = "1";
     dispatch(getPosts(page));
     history("/");
-    setSearch("");
-    setTags([]);
+    if (setSearch) setSearch("");
+    if (setTags) setTags([]);
   };
   useEffect(() => {
     const token = user?.token;

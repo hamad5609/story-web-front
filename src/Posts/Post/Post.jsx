@@ -61,6 +61,22 @@ const Post = ({ post, currentId, setCurrentId }) => {
   return (
     <div>
       <Card className={styles.card}>
+        <div className={styles.overlay2}>
+          {user?.result?.googleId === post.creator ||
+          user?.result?._id === post.creator ? (
+            <Button
+              size="small"
+              className={styles.moreIcon}
+              onClick={() => {
+                setCurrentId(post._id);
+              }}
+            >
+              <MoreHoziIcon size="default" />
+            </Button>
+          ) : (
+            ""
+          )}
+        </div>
         <ButtonBase
           className={styles.postButton}
           onClick={() => openPost(post._id)}
@@ -76,22 +92,7 @@ const Post = ({ post, currentId, setCurrentId }) => {
               {moment(post.createdAt).fromNow()}
             </Typography>
           </div>
-          <div className={styles.overlay2}>
-            {user?.result?.googleId === post.creator ||
-            user?.result?._id === post.creator ? (
-              <Button
-                size="small"
-                className={styles.moreIcon}
-                onClick={() => {
-                  setCurrentId(post._id);
-                }}
-              >
-                <MoreHoziIcon size="default" />
-              </Button>
-            ) : (
-              ""
-            )}
-          </div>
+
           <div className={styles.details}>
             <Typography variant="body2" color="textSecondary">
               {post.tag.map((tag) => `#${tag}`)}
