@@ -6,6 +6,8 @@ import {
   Grid,
   Grow,
   TextField,
+  Modal,
+  Backdrop,
 } from "@material-ui/core";
 import ChipInput from "material-ui-chip-input";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -21,13 +23,14 @@ import { useQuery } from "../searchQuery/index";
 const Home = (props) => {
   const dispatch = useDispatch();
   const styles = useStyles();
-  const location = useLocation();
   const query = useQuery();
   const history = useNavigate();
   const page = query.get("page") || 1;
   const searchQuery = query.get("searchQuery");
   const tag = query.get("tags");
   const [currentId, setCurrentId] = useState(null);
+  const [isModal, setIsModal] = useState(false);
+  const [addPostModal, setAddPostModal] = useState(false);
   const [search, setSearch] = useState("");
   const [tags, setTags] = useState([]);
   // console.log(location);
@@ -46,7 +49,8 @@ const Home = (props) => {
   }, []);
 
   const searchPost = () => {
-    if ((search.trim() || tags) && search && search !== "") {
+    console.log(search, tags);
+    if ((search.trim() || tags) && (tags.length !== 0 || search !== "")) {
       // fetch Post
       dispatch(getPostsBySearch({ search, tags: tags.join(",") }));
       history(`?searchQuery=${search}&tags=${tags}`);
@@ -66,6 +70,10 @@ const Home = (props) => {
   const handleAdd = (tag) => {
     setTags([...tags, tag]);
   };
+  const handleOpenModal = () => {
+    setIsModal(true);
+    setAddPostModal(true);
+  };
   return (
     <div>
       <Navbar setSearch={setSearch} setTags={setTags} />
@@ -74,10 +82,24 @@ const Home = (props) => {
           <Container className={styles.mobileContainer}>
             <Grid container spacing={3} className={`${styles.formSection}`}>
               <Grid item sm={12} md={8}>
-                <Posts currentId={currentId} setCurrentId={setCurrentId} />
+                <Posts
+                  currentId={currentId}
+                  setCurrentId={setCurrentId}
+                  setIsModal={setIsModal}
+                  setAddPostModal={setAddPostModal}
+                />
                 {searchQuery || tag ? "" : <Paginate page={page} />}
               </Grid>
               <Grid item sm={12} md={4}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  fullWidth
+                  className={styles.addBtn}
+                  onClick={handleOpenModal}
+                >
+                  <span className={styles.plusIcon}>+</span> Add Post
+                </Button>
                 <AppBar
                   color="inherit"
                   position="static"
@@ -114,7 +136,27 @@ const Home = (props) => {
                     Search
                   </Button>
                 </AppBar>
-                <Form currentId={currentId} setCurrentId={setCurrentId} />
+
+                <Modal
+                  open={isModal}
+                  onClose={() => setIsModal(false)}
+                  closeAfterTransition
+                  BackdropComponent={Backdrop}
+                  BackdropProps={{
+                    timeout: 500,
+                  }}
+                  className={styles.modal}
+                >
+                  <div>
+                    <Form
+                      currentId={currentId}
+                      setCurrentId={setCurrentId}
+                      setIsModal={setIsModal}
+                      isModal={isModal}
+                      addPostModal={addPostModal}
+                    />
+                  </div>
+                </Modal>
               </Grid>
             </Grid>
           </Container>

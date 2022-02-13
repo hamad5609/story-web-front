@@ -6,20 +6,34 @@ export default makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
+  paper: {
+    // padding: theme.spacing(1),
+    maxWidth: "500px",
+    width: "90%",
+    margin: "auto",
+    textAlign: "right",
+  },
+  notSigned: {
+    padding: "0px 0px 30px",
+  },
   main: {
     padding: "15px 0px 0px !important",
-  },
-  paper: {
-    padding: theme.spacing(1),
   },
   form: {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
+    padding: "0px 15px 25px",
+  },
+  heading: {
+    marginBottom: "15px",
+    fontSize: "25px",
+    fontWeight: "500",
   },
   fileInput: {
     width: "95%",
     margin: "10px 0",
+    textAlign: "left",
   },
   buttonSubmit: {
     marginBottom: 10,
@@ -27,5 +41,12 @@ export default makeStyles((theme) => ({
   },
   btnClear: {
     margin: "0px 8px 0px",
+  },
+  redHead: {
+    color: "green",
+    marginBottom: "20px",
+  },
+  notSignedPara: {
+    padding: "0px 30px",
   },
 }));

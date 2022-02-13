@@ -31,12 +31,15 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
     }
 }
 
-export const createPost = (post, currentPage) => async (dispatch) => {
+export const createPost = (post, currentPage, history) => async (dispatch) => {
     try {
         dispatch({ type: 'SHOW_LOADING' })
         const { data } = await api.CreateApi(post);
-        dispatch(getPosts(currentPage));
+
+        // dispatch(getPosts(currentPage));
+        history(`/${data._id}`)
         dispatch({ type: 'CREATE_POST', payload: data });
+
         dispatch({ type: 'HIDE_LOADING' })
 
     } catch (error) {

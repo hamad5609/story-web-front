@@ -3,7 +3,7 @@ import { Grid } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import Post from "./Post/Post.jsx";
 
-const Posts = ({ currentId, setCurrentId }) => {
+const Posts = ({ currentId, setCurrentId, setIsModal, setAddPostModal }) => {
   const { post } = useSelector((state) => state.post);
   const postData = post?.data;
   // if (post) {
@@ -20,6 +20,8 @@ const Posts = ({ currentId, setCurrentId }) => {
                   post={post}
                   currentId={currentId}
                   setCurrentId={setCurrentId}
+                  setIsModal={setIsModal}
+                  setAddPostModal={setAddPostModal}
                 />
               </Grid>
             );

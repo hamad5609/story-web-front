@@ -19,7 +19,13 @@ import { deletePost, likePost } from "../../Redux/actions/post";
 import { IsUser } from "../../Auth/user.jsx";
 import { useNavigate } from "react-router-dom";
 
-const Post = ({ post, currentId, setCurrentId }) => {
+const Post = ({
+  post,
+  currentId,
+  setCurrentId,
+  setIsModal,
+  setAddPostModal,
+}) => {
   const styles = useStyles();
   const dispatch = useDispatch();
   const history = useNavigate();
@@ -58,6 +64,11 @@ const Post = ({ post, currentId, setCurrentId }) => {
   const openPost = (post) => {
     history(`/${post}`);
   };
+  const handleEdit = (post) => {
+    setIsModal(true);
+    setCurrentId(post);
+    setAddPostModal(false);
+  };
   return (
     <div>
       <Card className={styles.card}>
@@ -67,9 +78,7 @@ const Post = ({ post, currentId, setCurrentId }) => {
             <Button
               size="small"
               className={styles.moreIcon}
-              onClick={() => {
-                setCurrentId(post._id);
-              }}
+              onClick={() => handleEdit(post._id)}
             >
               <MoreHoziIcon size="default" />
             </Button>
@@ -102,7 +111,12 @@ const Post = ({ post, currentId, setCurrentId }) => {
             <Typography className={styles.title} gutterBottom>
               {post.title}
             </Typography>
-            <Typography variant="body2" color="textSecondary" gutterBottom>
+            <Typography
+              variant="body2"
+              className={styles.para}
+              color="textSecondary"
+              gutterBottom
+            >
               {post.message}
             </Typography>
           </CardContent>

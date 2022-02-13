@@ -45,6 +45,13 @@ export default makeStyles({
   title: {
     padding: "0 0 10px",
   },
+  para: {
+    overflow: "hidden",
+    display: "-webkit-box",
+    "-webkit-line-clamp": "5",
+    "-webkit-box-orient": "vertical",
+    minHeight: "101px",
+  },
   moreIcon: {
     color: "white",
   },

@@ -1,4 +1,12 @@
-import { Button, Paper, TextField, Typography } from "@material-ui/core";
+import {
+  Button,
+  Paper,
+  TextField,
+  Typography,
+  Zoom,
+  IconButton,
+} from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/CloseOutlined";
 import React from "react";
 import { useState } from "react";
 import useStyles from "./styles";
@@ -7,9 +15,17 @@ import { createPost, updatePost } from "../Redux/actions/post.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { IsUser } from "../Auth/user";
+import { useNavigate } from "react-router-dom";
 
-const Form = ({ currentId, setCurrentId }) => {
+const Form = ({
+  currentId,
+  setCurrentId,
+  setIsModal,
+  isModal,
+  addPostModal,
+}) => {
   const styles = useStyles();
+  const history = useNavigate();
   const dispatch = useDispatch();
   const { post } = useSelector((state) => state.post);
   const { currentPage } = useSelector((state) => state.post);
@@ -45,7 +61,11 @@ const Form = ({ currentId, setCurrentId }) => {
         );
       } else {
         dispatch(
-          createPost({ ...postData, name: user?.result?.name }, currentPage)
+          createPost(
+            { ...postData, name: user?.result?.name },
+            currentPage,
+            history
+          )
         );
       }
       handleClear();
@@ -65,37 +85,51 @@ const Form = ({ currentId, setCurrentId }) => {
       setPostData(postItem);
     }
   }, [postItem]);
+  useEffect(() => {
+    if (addPostModal) handleClear();
+  }, []);
 
   if (!user?.result?.name) {
     return (
-      <Paper>
-        <Typography align="center" variant="h6">
-          Please Sign in to create your story or like others story
-        </Typography>
-      </Paper>
+      <Zoom in={isModal}>
+        <Paper className={`${styles.paper} ${styles.notSigned}`}>
+          <IconButton aria-label="close" onClick={() => setIsModal(false)}>
+            <CloseIcon />
+          </IconButton>
+          <Typography
+            align="center"
+            variant="h5"
+            color="secondary"
+            className={`${styles.redHead}`}
+          >
+            Sorry You are not signed in!
+          </Typography>
+          <Typography
+            align="center"
+            variant="h6"
+            className={`${styles.notSignedPara}`}
+          >
+            Please Sign in to create your story or like others story
+          </Typography>
+        </Paper>
+      </Zoom>
     );
   }
   return (
-    <div>
+    <Zoom in={isModal}>
       <Paper className={styles.paper}>
+        <IconButton aria-label="close" onClick={() => setIsModal(false)}>
+          <CloseIcon />
+        </IconButton>
         <form
           autoComplete="off"
           noValidate
           className={`${styles.root} ${styles.form}`}
           onSubmit={handleSubmit}
         >
-          <Typography variant="h6">Create Story</Typography>
-          {/* <TextField
-            name="creator"
-            label="Your Name"
-            variant="outlined"
-            value={postData.creator}
-            fullWidth
-            required
-            onChange={(e) =>
-              setPostData({ ...postData, creator: e.target.value })
-            }
-          /> */}
+          <Typography variant="h5" className={styles.heading}>
+            Create Story
+          </Typography>
           <TextField
             name="title"
             label="Title"
@@ -163,7 +197,7 @@ const Form = ({ currentId, setCurrentId }) => {
           </Button>
         </form>
       </Paper>
-    </div>
+    </Zoom>
   );
 };
 
