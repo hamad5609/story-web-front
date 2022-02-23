@@ -22,6 +22,16 @@ export default (state = { post: [], isLoading: false, postById: null }, action) 
             return { ...state, post: state.post.map((p) => p._id === action.payload._id ? action.payload : p) }
         case 'LIKE_POST':
             return { ...state, post: state.post.map((p) => p._id === action.payload._id ? action.payload : p) }
+        case 'POST_COMMENT':
+            return {
+                ...state,
+                postById: action.payload
+            }
+        case 'DELETE_COMMENT':
+            return {
+                ...state,
+                postById: action.payload
+            }
         case 'DELETE_POST':
             return { ...state, post: state.post.filter((p) => p._id !== action.payload) };
         default:

@@ -3,7 +3,7 @@ import useStyles from "./styles.js";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Typography, AppBar, Button, Avatar, Toolbar } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import logo from "../assets/images/logo.png";
+import logo from "../assets/images/logo2.png";
 import decode from "jwt-decode";
 import { getPosts } from "../Redux/actions/post.js";
 

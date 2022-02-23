@@ -85,3 +85,26 @@ export const likePost = (id, currentPage) => async (dispatch) => {
         console.log(error.message);
     }
 }
+
+export const postComment = (id, comment) => async (dispatch) => {
+    try {
+        dispatch({ type: 'SHOW_LOADING' })
+        const { data } = await api.CommentPost(id, comment);
+        dispatch({ type: 'POST_COMMENT', payload: data })
+        dispatch({ type: 'HIDE_LOADING' })
+        return data.comments;
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+export const deleteComment = (id, userComments) => async (dispatch) => {
+    try {
+        dispatch({ type: 'SHOW_LOADING' })
+        const { data } = await api.DeleteComment(id, userComments);
+        dispatch({ type: 'DELETE_COMMENT', payload: data })
+        dispatch({ type: 'HIDE_LOADING' })
+    } catch (error) {
+        console.log(error.message);
+    }
+}

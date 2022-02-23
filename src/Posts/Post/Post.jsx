@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deletePost, likePost } from "../../Redux/actions/post";
 import { IsUser } from "../../Auth/user.jsx";
 import { useNavigate } from "react-router-dom";
+import { scrollToTop } from "../../scrollToTop";
 
 const Post = ({
   post,
@@ -63,6 +64,7 @@ const Post = ({
   };
   const openPost = (post) => {
     history(`/${post}`);
+    scrollToTop();
   };
   const handleEdit = (post) => {
     setIsModal(true);

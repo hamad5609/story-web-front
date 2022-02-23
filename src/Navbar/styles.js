@@ -21,6 +21,9 @@ export default makeStyles(() => ({
     },
     image: {
         marginRight: "15px",
+        width: "70px",
+        height: "auto",
+        marginTop: "-10px"
     },
     flexLogo: {
         display: "flex",
