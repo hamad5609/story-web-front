@@ -69,6 +69,7 @@ const Form = ({
         );
       }
       handleClear();
+      setIsModal(false);
     }
   };
   const handleClear = () => {
@@ -91,7 +92,7 @@ const Form = ({
 
   if (!user?.result?.name) {
     return (
-      <Zoom in={isModal}>
+      <Zoom className={styles.ZoomCont} in={isModal}>
         <Paper className={`${styles.paper} ${styles.notSigned}`}>
           <IconButton aria-label="close" onClick={() => setIsModal(false)}>
             <CloseIcon />
@@ -116,7 +117,7 @@ const Form = ({
     );
   }
   return (
-    <Zoom in={isModal}>
+    <Zoom className={styles.ZoomCont} in={isModal}>
       <Paper className={styles.paper}>
         <IconButton aria-label="close" onClick={() => setIsModal(false)}>
           <CloseIcon />

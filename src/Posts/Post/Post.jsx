@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -31,13 +31,29 @@ const Post = ({
   const dispatch = useDispatch();
   const history = useNavigate();
   const { currentPage } = useSelector((state) => state.post);
+  const [isLikes, setIsLikes] = useState(post?.likes);
   const user = IsUser();
+
+  const currentUserId = user?.result?.googleId || user?.result?._id;
+
+  const handleLikesPost = async (val) => {
+    const hasPostLiked = isLikes.find((like) => like === currentUserId);
+
+    dispatch(likePost(val._id));
+
+    if (hasPostLiked) {
+      let filteredLike = isLikes.filter((id) => id !== currentUserId);
+      setIsLikes(filteredLike);
+    } else {
+      setIsLikes([...isLikes, currentUserId]);
+    }
+    console.log(isLikes);
+  };
+
   const Likes = () => {
-    if (post.likes.length > 0) {
-      const postLength = post.likes.length;
-      return post.likes.find(
-        (like) => like === (user?.result?.googleId || user?.result?._id)
-      ) ? (
+    if (isLikes.length > 0) {
+      const postLength = isLikes.length;
+      return isLikes.find((like) => like === currentUserId) ? (
         <>
           {" "}
           <ThumbUpAltIcon fontSize="small" />
@@ -63,7 +79,7 @@ const Post = ({
     }
   };
   const openPost = (post) => {
-    history(`/${post}`);
+    history(`/${post._id}`, { state: post.tag });
     scrollToTop();
   };
   const handleEdit = (post) => {
@@ -90,7 +106,7 @@ const Post = ({
         </div>
         <ButtonBase
           className={styles.postButton}
-          onClick={() => openPost(post._id)}
+          onClick={() => openPost(post)}
         >
           <CardMedia
             className={styles.media}
@@ -128,9 +144,7 @@ const Post = ({
             size="small"
             color="primary"
             disabled={!user?.result}
-            onClick={() => {
-              dispatch(likePost(post._id, currentPage));
-            }}
+            onClick={() => handleLikesPost(post)}
           >
             <Likes />
           </Button>

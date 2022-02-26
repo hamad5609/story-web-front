@@ -6,12 +6,23 @@ export default makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
+  ZoomCont: {
+    maxWidth: "550px",
+    width: "90%",
+    margin: "auto",
+    textAlign: "end",
+    outline: "none",
+    "&:focus": {
+      outline: "none",
+    },
+  },
   paper: {
     // padding: theme.spacing(1),
     maxWidth: "500px",
     width: "90%",
     margin: "auto",
     textAlign: "right",
+    outline: "none",
   },
   notSigned: {
     padding: "0px 0px 30px",
@@ -47,6 +58,6 @@ export default makeStyles((theme) => ({
     marginBottom: "20px",
   },
   notSignedPara: {
-    padding: "0px 30px",
+    padding: "0px 30px 30px",
   },
 }));

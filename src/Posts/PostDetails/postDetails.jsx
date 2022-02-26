@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState, useRef } from "react";
 import Navbar from "../../Navbar/navbar";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import {
   getPostById,
   getPostsBySearch,
@@ -22,66 +22,88 @@ import {
 import useStyles from "./styles.jsx";
 import moment from "moment";
 import { scrollToTop } from "../../scrollToTop";
+import { v4 as uuid } from "uuid";
 
 const PostDetails = (props) => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const { state } = useLocation();
   const commentsRef = useRef();
   const history = useNavigate();
   const styles = useStyles();
   const { postById, post } = useSelector((state) => state.post);
   const [currentPost, setCurrentPost] = useState(null);
   const [comment, setComment] = useState("");
+  const [isComment, setIsComment] = useState();
+  const [preventComment, setPreventComment] = useState(false);
   const user = JSON.parse(localStorage.getItem("UserProfile"));
   useEffect(() => {
     dispatch(getPostById(id));
     setCurrentPost(postById);
   }, [id]);
-  let postId;
-  if (postById) {
-    postId = postById;
-  }
+  useEffect(() => {
+    if (postById?.comments && !preventComment) {
+      setIsComment(postById.comments);
+    }
+  }, [postById]);
 
   useEffect(() => {
-    if (postId) {
-      dispatch(
-        getPostsBySearch({ search: "none", tags: postId?.tag.join(",") })
-      );
+    const handleRecommendedPosts = (state) => {
+      dispatch(getPostsBySearch({ search: "none", tags: state.join(",") }));
+    };
+    if (state) {
+      handleRecommendedPosts(state);
     }
-  }, [postId && id]);
+  }, [state]);
+
   if (!postById) return null;
   const selectedPost = postById;
   const recommendedPosts = post?.data?.filter(
     (item) => item._id !== selectedPost?._id
   );
-  const openPost = (id) => {
-    history(`/${id}`);
+  const openPost = (post) => {
+    history(`/${post._id}`, { state: post.tag });
     scrollToTop();
+    setPreventComment(false);
   };
   const handleComments = async () => {
+    setPreventComment(false);
+    const unique_id = uuid();
     let userComment;
     if (user?.result.googleId) {
       userComment = user?.result;
     } else {
       userComment = user?.result;
     }
+
     let finalComment = {
+      id: unique_id,
       user: userComment,
       message: `${comment}`,
     };
-    await dispatch(postComment(selectedPost._id, finalComment));
+    dispatch(postComment(selectedPost._id, finalComment));
+
+    const addComment = [...isComment, finalComment];
+    await setIsComment(addComment);
     setComment("");
+
     commentsRef.current.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
     });
   };
 
-  const handleDeleteComment = (commentId) => {
+  const handleDeleteComment = async (commentId) => {
+    await setPreventComment(true);
     let userComments = {
       commentId: commentId,
     };
     dispatch(deleteComment(selectedPost._id, userComments));
+
+    const deletedComment = isComment.filter(
+      (comment) => comment.id !== commentId
+    );
+    setIsComment(deletedComment);
   };
 
   return (
@@ -114,9 +136,9 @@ const PostDetails = (props) => {
                   Comments
                 </Typography>
                 <div className={styles.scrollSection}>
-                  {selectedPost.comments &&
-                    selectedPost.comments.length > 0 &&
-                    selectedPost.comments.map((item, index) => {
+                  {isComment &&
+                    isComment.length > 0 &&
+                    isComment.map((item, index) => {
                       if (typeof item === "object" && item?.message) {
                         let currentUser;
                         if (user?.result.googleId) {
@@ -223,7 +245,7 @@ const PostDetails = (props) => {
                     md={4}
                     lg={3}
                     className={styles.cards}
-                    onClick={() => openPost(post._id)}
+                    onClick={() => openPost(post)}
                     key={post._id}
                   >
                     <Typography variant="h6">{post.title}</Typography>

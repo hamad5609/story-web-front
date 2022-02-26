@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const url = "http://localhost:5000";
-const url = "https://story-web-back.herokuapp.com";
+const url = "http://localhost:5000";
+// const url = "https://story-web-back.herokuapp.com";
 const Api = axios.create({ baseURL: url });
 Api.interceptors.request.use((req) => {
     if (localStorage.getItem('UserProfile')) {

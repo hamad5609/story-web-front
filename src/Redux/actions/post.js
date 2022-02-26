@@ -15,7 +15,7 @@ export const getPostById = (id) => async (dispatch) => {
         dispatch({ type: 'SHOW_LOADING' })
         const { data } = await api.FetchPostById(id);
         dispatch({ type: 'Fetch_POST_BY_ID', payload: data });
-        dispatch({ type: 'HIDE_LOADING' })
+        // dispatch({ type: 'HIDE_LOADING' })
     } catch (error) {
         console.log(error.message);
     }
@@ -73,14 +73,10 @@ export const deletePost = (id, currentPage) => async (dispatch) => {
     }
 }
 
-export const likePost = (id, currentPage) => async (dispatch) => {
+export const likePost = (id) => async (dispatch) => {
     try {
-        dispatch({ type: 'SHOW_LOADING' })
         const { data } = await api.LikePost(id);
-        dispatch(getPosts(currentPage));
         dispatch({ type: 'LIKE_POST', payload: data })
-        dispatch({ type: 'HIDE_LOADING' })
-
     } catch (error) {
         console.log(error.message);
     }
@@ -88,10 +84,8 @@ export const likePost = (id, currentPage) => async (dispatch) => {
 
 export const postComment = (id, comment) => async (dispatch) => {
     try {
-        dispatch({ type: 'SHOW_LOADING' })
         const { data } = await api.CommentPost(id, comment);
         dispatch({ type: 'POST_COMMENT', payload: data })
-        dispatch({ type: 'HIDE_LOADING' })
         return data.comments;
     } catch (error) {
         console.log(error.message);
@@ -100,10 +94,8 @@ export const postComment = (id, comment) => async (dispatch) => {
 
 export const deleteComment = (id, userComments) => async (dispatch) => {
     try {
-        dispatch({ type: 'SHOW_LOADING' })
         const { data } = await api.DeleteComment(id, userComments);
         dispatch({ type: 'DELETE_COMMENT', payload: data })
-        dispatch({ type: 'HIDE_LOADING' })
     } catch (error) {
         console.log(error.message);
     }

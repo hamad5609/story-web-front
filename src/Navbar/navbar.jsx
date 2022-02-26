@@ -33,6 +33,12 @@ const Navbar = ({ setSearch, setTags }) => {
     }
     setUser(JSON.parse(localStorage.getItem("UserProfile")));
   }, [location]);
+
+  const token = user?.token;
+  if (token) {
+    const decodedToken = decode(token);
+    if (decodedToken.exp * 1000 < new Date().getTime()) handleLogout();
+  }
   return (
     <AppBar className={styles.appBar} position="sticky" color="inherit">
       <div
