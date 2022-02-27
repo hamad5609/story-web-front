@@ -6,14 +6,21 @@ export default makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
+  "*:focus": {
+    outline: "none !important",
+  },
+
   ZoomCont: {
     maxWidth: "550px",
     width: "90%",
     margin: "auto",
     textAlign: "end",
-    outline: "none",
+    outline: "none !important",
     "&:focus": {
-      outline: "none",
+      outline: "none !important",
+    },
+    "&:focus-visible": {
+      outline: "none !important",
     },
   },
   paper: {
@@ -22,7 +29,10 @@ export default makeStyles((theme) => ({
     width: "90%",
     margin: "auto",
     textAlign: "right",
-    outline: "none",
+    outline: "none !important",
+    "&:focus": {
+      outline: "none !important",
+    },
   },
   notSigned: {
     padding: "0px 0px 30px",

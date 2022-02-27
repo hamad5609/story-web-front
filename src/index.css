@@ -3,3 +3,11 @@
   padding: 0px;
   font-family: "Poppins", sans-serif;
 }
+*:focus-visible {
+  outline: none !important;
+}
+
+body {
+  padding: 0px !important;
+  overflow: auto !important;
+}
