@@ -6,6 +6,9 @@
 *:focus-visible {
   outline: none !important;
 }
+*:focus {
+  outline: none !important;
+}
 
 body {
   padding: 0px !important;
